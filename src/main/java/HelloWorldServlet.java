@@ -15,10 +15,11 @@ import java.io.PrintWriter;
             protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
                 response.setContentType("text/html");
                 PrintWriter out = response.getWriter();
+                out.println("<h1>Hello World</h1>");
 
                 if(request.getParameter("name") != null){
                     name = request.getParameter("name");
-                    out.println("<h1>Hello," + name);
+                    out.println("<h1>Hello," + name + "</h1>");
                 }else{
                     out.println("<h1>Hello, World!</h1>");
                 }
