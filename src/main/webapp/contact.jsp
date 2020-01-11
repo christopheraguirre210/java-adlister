@@ -18,6 +18,21 @@
         <p>${contact.phoneNumber}</p>
     </c:forEach>
 </div>
+<form action="/contacts" method="POST">
+    <div>
+        <label for="firstName">First Name</label>
+        <input id="firstName" name="firstName" placeholder="Enter First Name">
+    </div>
+    <div>
+        <label for="lastName">Last Name</label>
+        <input id="lastName" name="lastName" placeholder="Enter Last Name">
+    </div>
+    <div>
+        <label for="phoneNumber">Phone Number</label>
+        <input id="phoneNumber" name="phoneNumber" placeholder="Enter Phone Number">
+    </div>
+    <button>Submit</button>
+</form>
 
 </body>
 </html>
