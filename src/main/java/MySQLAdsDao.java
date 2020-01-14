@@ -1,8 +1,7 @@
 import com.mysql.cj.jdbc.Driver;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MySQLAdsDao implements Ads {
     private Connection connection;
@@ -49,7 +48,13 @@ public class MySQLAdsDao implements Ads {
     public static void main(String[] args) throws SQLException {
         Ads adsDao = new MySQLAdsDao();
 
+        List<Ad> ads = adsDao.all();
+        for (Ad ad : ads){
+            System.out.println(ad);
+        }
 //        create test Ad
+
+
 
 
 
@@ -57,9 +62,5 @@ public class MySQLAdsDao implements Ads {
 
 
 
-        List<Ad> ads = adsDao.all();
-        for (Ad ad : ads){
-            System.out.println(ad);
-        }
     }
 }
