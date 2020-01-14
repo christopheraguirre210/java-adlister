@@ -1,11 +1,10 @@
 import com.mysql.cj.jdbc.Driver;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
-public class MySQLAdsDao implements Ads{
+public class MySQLAdsDao implements Ads {
     private Connection connection;
 
     public MySQLAdsDao() throws SQLException {
@@ -20,11 +19,47 @@ public class MySQLAdsDao implements Ads{
 
     @Override
     public List<Ad> all() {
-        return null;
+        List<Ad> ShowAll = new ArrayList<>();
+        String query = "SELECT * FROM ads";
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            while (rs.next()) {
+                ShowAll.add(
+                        new Ad(
+                                rs.getInt("id"),
+                                rs.getInt("user_id"),
+                                rs.getString("title"),
+                                rs.getString("description")
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ShowAll;
     }
 
     @Override
     public Long insert(Ad ad) {
         return null;
+    }
+
+    public static void main(String[] args) throws SQLException {
+        Ads adsDao = new MySQLAdsDao();
+
+//        create test Ad
+
+
+
+//         test insert method
+
+
+
+        List<Ad> ads = adsDao.all();
+        for (Ad ad : ads){
+            System.out.println(ad);
+        }
     }
 }
