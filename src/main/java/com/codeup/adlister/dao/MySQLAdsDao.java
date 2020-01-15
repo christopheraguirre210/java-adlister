@@ -28,10 +28,10 @@ public class MySQLAdsDao implements Ads {
 
     @Override
     public List<Ad> all() {
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         try {
-            stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM ads");
+            stmt = connection.prepareStatement("SELECT * FROM ads");
+            ResultSet rs = stmt.executeQuery();
             return createAdsFromResults(rs);
         } catch (SQLException e) {
             throw new RuntimeException("Error retrieving all ads.", e);
@@ -39,16 +39,34 @@ public class MySQLAdsDao implements Ads {
     }
 
     @Override
-    public Long insert(Ad ad) {
+    public List<Ad> filteredList(String searchTerm) {
+        PreparedStatement stmt = null;
+        String searchTermWithWildcards = "%" + searchTerm + "%";
         try {
-            Statement stmt = connection.createStatement();
-            stmt.executeUpdate(createInsertQuery(ad), Statement.RETURN_GENERATED_KEYS);
-            ResultSet rs = stmt.getGeneratedKeys();
-            rs.next();
-            return rs.getLong(1);
+            stmt = connection.prepareStatement("SELECT * FROM ads WHERE title LIKE ?");
+            stmt.setString(1, searchTermWithWildcards);
+            ResultSet rs = stmt.executeQuery();
+            return createAdsFromResults(rs);
         } catch (SQLException e) {
-            throw new RuntimeException("Error creating a new ad.", e);
+            throw new RuntimeException("Error retrieving filtered ads.", e);
         }
+    }
+
+    @Override
+    public Long insert(Ad ad) {
+
+        String sql = "INSERT INTO ads(title, description) VALUES (?, ?)";
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, "hammer");
+            stmt.setString(2, "tools");
+            stmt.executeUpdate();
+            ResultSet generatedIdResultSet = stmt.getGeneratedKeys();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+            throw new RuntimeException("Error creating a new ad.");
     }
 
     private String createInsertQuery(Ad ad) {

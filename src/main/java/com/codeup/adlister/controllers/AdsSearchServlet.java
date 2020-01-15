@@ -9,23 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/ads/register")
-public class RegisterServlet extends HttpServlet {
+@WebServlet("/ads/search")
+public class AdsSearchServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/ads/register.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/ads/search.jsp").forward(request, response);
     }
-    // TODO: show the registration form
-
-
-
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String searchTerm = request.getParameter("sign-up");
-        request.getRequestDispatcher("/login").forward(request, response);
+       String searchTerm = request.getParameter("search");
+        request.setAttribute("ads", DaoFactory.getAdsDao().filteredList(searchTerm));
+        request.getRequestDispatcher("/WEB-INF/ads/index.jsp").forward(request, response);
 
     }
-        // TODO: ensure the submitted information is valid
-        // TODO: create a new user based off of the submitted information
-        // TODO: if a user was successfully created, send them to their profile
-
 }
