@@ -41,26 +41,38 @@ public class MySQLAdsDao implements Ads {
     }
 
     @Override
-    public Long insert(Ad ad) {
-        return null;
+    public long insert(Ad ad) throws SQLException {
+        String query = "INSERT INTO ads(user_id, title, description) VALUES (1, 'Big Fish', 'Fresh fish served daily')";
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+        ResultSet rs = statement.getGeneratedKeys();
+        if (rs.next()) {
+            System.out.println("Inserted a new record! New id: " + rs.getLong(1));
+        }
+        int numberOfRowsEffected = statement.executeUpdate((query));
+        return numberOfRowsEffected;
     }
 
     public static void main(String[] args) throws SQLException {
-        Ads adsDao = new MySQLAdsDao();
-
-        List<Ad> ads = adsDao.all();
-        for (Ad ad : ads){
-            System.out.println(ad);
-        }
+//        Ads adsDao = new MySQLAdsDao();
+//
+//        List<Ad> ads = adsDao.all();
+//        for (Ad ad : ads){
+//            System.out.println(ad);
+//        }
 //        create test Ad
-
-
-
 
 
 //         test insert method
 
-
-
+        Ads adsDao = new MySQLAdsDao();
+        Ad ad = new Ad(1, "Big Fish", "Fresh fish served daily");
+        adsDao.insert(ad);
+        List<Ad> ads = adsDao.all();
+        for (Ad single : ads) {
+            System.out.println(single);
+        }
     }
+
 }
+
