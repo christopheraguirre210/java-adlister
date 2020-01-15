@@ -1,19 +1,23 @@
 import com.mysql.cj.jdbc.Driver;
-
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MySQLAdsDao implements Ads {
     private Connection connection;
 
     public MySQLAdsDao() throws SQLException {
-        Config config = new Config();
-        DriverManager.registerDriver(new Driver());
-        this.connection = DriverManager.getConnection(
-                config.getUrl(),
-                config.getUsername(),
-                config.getPassword()
-        );
+        try {
+            Config config = new Config();
+            DriverManager.registerDriver(new Driver());
+            this.connection = DriverManager.getConnection(
+                    config.getUrl(),
+                    config.getUsername(),
+                    config.getPassword()
+            );
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -54,22 +58,22 @@ public class MySQLAdsDao implements Ads {
     }
 
     public static void main(String[] args) throws SQLException {
-//        Ads adsDao = new MySQLAdsDao();
-//
-//        List<Ad> ads = adsDao.all();
-//        for (Ad ad : ads){
-//            System.out.println(ad);
-//        }
+        Ads adsDao = new MySQLAdsDao();
+
+        List<Ad> ads = adsDao.all();
+        for (Ad ad : ads){
+            System.out.println(ad);
+        }
 //        create test Ad
 
 
 //         test insert method
 
-        Ads adsDao = new MySQLAdsDao();
         Ad ad = new Ad(1, "Big Fish", "Fresh fish served daily");
         adsDao.insert(ad);
-        List<Ad> ads = adsDao.all();
-        for (Ad single : ads) {
+        Ads adsDao1 = new MySQLAdsDao();
+        List<Ad> ads1 = adsDao1.all();
+        for (Ad single : ads1) {
             System.out.println(single);
         }
     }
