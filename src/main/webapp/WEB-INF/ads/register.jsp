@@ -13,10 +13,12 @@
 <body>
 <h1>Register with us</h1>
 <form action="/ads/register" method="post">
-    <label for="sign-up">Username</label>
-    <input type="text" id="sign-up" name="sign-up"><br>
-    <label for="sign-up">password</label>
-    <input type="text" id="sign-up" name="sign-up">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" placeholder="username"><br>
+    <label for="email">email</label>
+    <input type="text" id="email" name="email" placeholder="email"><br>
+    <label for="password">password</label>
+    <input type="text" id="password" name="password" placeholder="password"><br>
     <button type="submit">Sign-up</button>
 </form>
 
